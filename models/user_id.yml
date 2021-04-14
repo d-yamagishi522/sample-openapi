@@ -1,0 +1,26 @@
+description: 'ユーザー取得API'
+parameters:
+  - name: id
+    in: path
+    description: ユーザーID
+    required: true
+    allowEmptyValue: false
+    schema:
+      type: string
+      format: uuid
+responses:
+  '200':
+    description: ユーザーデータ
+    content:
+      application/json:
+        schema:
+          properties:
+            id:
+              example: 61798c29-d0e3-472f-91dd-db912e602249
+              type: string
+            name:
+              example: ユーザー名
+              type: string
+          type: object
+tags:
+  - users

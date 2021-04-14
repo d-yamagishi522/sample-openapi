@@ -1,0 +1,27 @@
+version: "3.3"
+services:
+  swagger-merger:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./models:/models
+      - ./open_api.yml:/open_api.yml
+      - './swagger.yml:/swagger.yml'
+    command:
+      swagger-merger -i open_api.yml
+
+  swagger-ui:
+    image: swaggerapi/swagger-ui
+    volumes:
+      - './swagger.yml:/usr/share/nginx/html/swagger.yml'
+    environment:
+      API_URL: swagger.yml
+    ports:
+      - '8080:8080'
+    # swagger-mergerでswagger.ymlを更新してから立ち上げる
+    depends_on:
+      - "swagger-merger"
+volumes:
+  swagger.yml:
+    driver: local

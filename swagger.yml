@@ -1,0 +1,71 @@
+openapi: 3.0.2
+info:
+  title: タイトル
+  description: 説明かくところ
+  termsOfService: 'https://policies.google.com/terms?hl=ja&gl=JP'
+  contact:
+    name: Cloud Ace Technical Blog
+    url: 'https://www.apps-gcp.com/'
+    email: test@apps-gcp.com
+  license:
+    name: license by Open Source Initiative
+    url: 'https://opensource.jp/osd/osd-japanese.html'
+  version: v1.0.0
+servers:
+  - url: 'http://localhost:3000'
+    description: 概要
+    variables:
+      projectName:
+        enum:
+          - test-project
+          - google-test
+        default: test-project
+        description: set project
+paths:
+  /user:
+    get:
+      description: ユーザー取得API
+      responses:
+        '200':
+          description: ユーザーデータ
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    example: 61798c29-d0e3-472f-91dd-db912e602249
+                    type: string
+                  name:
+                    example: ユーザー名
+                    type: string
+                type: object
+      tags:
+        - users
+  '/user/{id}':
+    get:
+      description: ユーザー取得API
+      parameters:
+        - name: id
+          in: path
+          description: ユーザーID
+          required: true
+          allowEmptyValue: false
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: ユーザーデータ
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    example: 61798c29-d0e3-472f-91dd-db912e602249
+                    type: string
+                  name:
+                    example: ユーザー名
+                    type: string
+                type: object
+      tags:
+        - users
