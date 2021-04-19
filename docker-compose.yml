@@ -1,5 +1,6 @@
 version: "3.3"
 services:
+  # swagger.yml作成
   swagger-merger:
     build:
       context: .
@@ -11,6 +12,7 @@ services:
     command:
       swagger-merger -i open_api.yml
 
+  # swagger表示
   swagger-ui:
     image: swaggerapi/swagger-ui
     volumes:
@@ -22,6 +24,19 @@ services:
     # swagger-mergerでswagger.ymlを更新してから立ち上げる
     depends_on:
       - "swagger-merger"
+    
+  # モックサーバーを構築
+  prism:
+    image: stoplight/prism:3
+    volumes:
+      - ./swagger.yml:/swagger.yml
+    ports:
+      - "3000:4010"
+    command: mock -h 0.0.0.0 /swagger.yml
+    depends_on:
+      - "swagger-merger"
+
+# コンテナ間でswagger.ymlを共有
 volumes:
   swagger.yml:
     driver: local
